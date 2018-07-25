@@ -1,0 +1,20 @@
+---
+title: "Map Visualization"
+author: "Ivan Lysiuchenko"
+date: 'July, 25, 2018'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+library(leaflet)
+
+dataMap <- leaflet() %>% addProviderTiles(providers$Wikimedia) %>%
+  setView(lng = 32.7670, lat = 48.8120, zoom = 5)
+dataMap
+
+# 48.812028, 32.766993
+```
