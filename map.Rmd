@@ -9,12 +9,94 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r fig.cap="Map of Ukraine"}
+```{r echo=FALSE, eval=TRUE, message=FALSE}
+# Create data frame
+objName <- c("St. Sophia's Cathedral", "Desiatynna Church", 
+              "Kiev Pechersk Lavra", "Vydubytskyi Monastyr",
+              "St. Michael's Cathedral", "St. Andrew's Church",
+              "Spas na Berestovi Church", "St. Cyril's Church",
+              "St. Volodymyr's Cathedral", "Brodsky Synagogue",
+              "Ar-Rahmah Mosque",
+              "Mariinskyi Palace", "Second World War Museum",
+              "People's Architecture Museum", "Kyiv Museum",
+              "Khanenko Museum", "Lesia Ukrainka Theatre",
+              "Ivan Franko Theatre", "National Opera",
+              "National University", "Polytechnic University",
+              "Aviation University"
+              )
+objGroup <- c("religious", "religious",
+              "religious", "religious",
+              "religious", "religious",
+              "religious", "religious",
+              "religious", "religious",
+              "religious",
+              "culture", "culture",
+              "culture", "culture",
+              "culture", "culture",
+              "culture", "culture",
+              "education", "education",
+              "education"
+              )
+objLatitude <- c(50.452918, 50.457892,
+                 50.435036, 50.416754,
+                 50.455618, 50.458943,
+                 50.437324, 50.483474,
+                 50.444844, 50.438510,
+                 50.465079, 
+                 50.448378, 50.426469,
+                 50.353880, 50.445137,
+                 50.441201, 50.444891,
+                 50.445472, 50.446672,
+                 50.441977, 50.449409,
+                 50.440855
+              )
+objLongitude <- c(30.514251, 30.517401,
+                  30.557409, 30.568953,
+                  30.522751, 30.517909,
+                  30.554910, 30.472051,
+                  30.508733, 30.520428,
+                  30.499622,
+                  30.537538, 30.563159,
+                  30.507112, 30.517585,
+                  30.514486, 30.518993,
+                  30.528369, 30.512520,
+                  30.511196, 30.461276,
+                  30.431622
+              )
+
+locations <- data.frame(objName = objName,
+                        objGroup = as.factor(objGroup),
+                        objLatitude = objLatitude,
+                        objLongitude = objLongitude)
+```
+
+```{r fig.cap="Some places in Kyiv, Ukraine", message=FALSE}
+
 library(leaflet)
 
-dataMap <- leaflet() %>% addProviderTiles(providers$Wikimedia) %>%
-  setView(lng = 32.7670, lat = 48.8120, zoom = 5)
+getColor <- function(groupName) {
+  sapply(groupName, function(groupName) {
+  if (groupName == "religious")
+    return("red")
+  else if (groupName == "culture")
+    return("blue")
+  else if (groupName == "education")
+    return("green")
+  else
+    return("black")
+  })
+}
+
+
+dataMap <- leaflet(data = locations) %>%
+  addProviderTiles(providers$Wikimedia) %>%
+  setView(lat = 50.446092, lng = 30.544938, zoom = 11) %>%
+  addCircleMarkers(lat = ~objLatitude, lng = ~objLongitude,
+                   popup = ~objName, color = ~getColor(objGroup),
+                   clusterOptions = markerClusterOptions()) #%>%
+  
+#  addLegend(pal = getColor, values = ~objGroup)
+
 dataMap
 
-# 48.812028, 32.766993
 ```
