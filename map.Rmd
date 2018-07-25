@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r}
+```{r fig.cap="Map of Ukraine"}
 library(leaflet)
 
 dataMap <- leaflet() %>% addProviderTiles(providers$Wikimedia) %>%
