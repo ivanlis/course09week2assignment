@@ -1,7 +1,7 @@
 ---
 title: "Map Visualization"
 author: "Ivan Lysiuchenko"
-date: 'July, 25, 2018'
+date: 'July, 26, 2018'
 output: html_document
 ---
 
@@ -93,9 +93,9 @@ dataMap <- leaflet(data = locations) %>%
   setView(lat = 50.446092, lng = 30.544938, zoom = 11) %>%
   addCircleMarkers(lat = ~objLatitude, lng = ~objLongitude,
                    popup = ~objName, color = ~getColor(objGroup),
-                   clusterOptions = markerClusterOptions()) #%>%
-  
-#  addLegend(pal = getColor, values = ~objGroup)
+                   clusterOptions = markerClusterOptions()) %>%
+  addLegend(labels = c("religious", "culture", "education"),
+                   colors = c("red", "blue", "green"))
 
 dataMap
 
